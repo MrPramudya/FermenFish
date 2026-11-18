@@ -11,25 +11,35 @@
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #1e293b; padding-bottom: 16px; }
     header h1 { font-size: 1.4rem; color: #38bdf8; }
     .badge { padding: 6px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; background: #064e3b; color: #34d399; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
-    .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; transition: border-color 0.3s ease; }
     .card h2 { font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
     .value { font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; }
     .status-text { font-size: 0.9rem; font-weight: 500; }
 
-    /* Visualisasi Lampu Indikator & Kipas */
-    .visual-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px; }
-    .visual-box { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 16px; display: flex; align-items: center; gap: 16px; }
-    
-    .lamp-group { display: flex; gap: 14px; align-items: center; }
-    .lamp-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.75rem; color: #94a3b8; }
-    .lamp { width: 34px; height: 34px; border-radius: 50%; background: #334155; border: 2px solid #475569; transition: all 0.3s ease; }
-    .lamp.red-on { background: #ef4444; border-color: #fca5a5; box-shadow: 0 0 18px #ef4444, 0 0 32px rgba(239, 68, 68, 0.6); }
-    .lamp.green-on { background: #22c55e; border-color: #86efac; box-shadow: 0 0 18px #22c55e, 0 0 32px rgba(34, 197, 94, 0.6); }
+    /* Kartu Unit Kipas & Lampu Indikator */
+    .unit-card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; display: flex; flex-direction: column; gap: 16px; transition: all 0.3s ease; }
+    .unit-card.active-heat { border-color: #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+    .unit-card.active-cool { border-color: #22c55e; box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
 
-    .fan-icon { width: 54px; height: 54px; flex-shrink: 0; color: #64748b; transition: color 0.3s ease; }
-    .fan-cw { color: #ef4444; animation: spinRight 1s linear infinite; }
-    .fan-ccw { color: #22c55e; animation: spinLeft 1s linear infinite; }
+    .unit-header { display: flex; justify-content: space-between; align-items: center; }
+    .unit-title { font-size: 0.95rem; font-weight: 700; color: #f8fafc; }
+    .unit-sub { font-size: 0.8rem; color: #94a3b8; margin-top: 2px; }
+
+    .unit-body { display: flex; align-items: center; justify-content: space-around; background: #0f172a; padding: 18px; border-radius: 10px; border: 1px solid #1e293b; }
+    .indicator-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .indicator-label { font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+
+    /* Lampu Indikator */
+    .lamp { width: 42px; height: 42px; border-radius: 50%; background: #334155; border: 2px solid #475569; transition: all 0.3s ease; }
+    .lamp.red-on { background: #ef4444; border-color: #fca5a5; box-shadow: 0 0 18px #ef4444, 0 0 34px rgba(239, 68, 68, 0.7); }
+    .lamp.green-on { background: #22c55e; border-color: #86efac; box-shadow: 0 0 18px #22c55e, 0 0 34px rgba(34, 197, 94, 0.7); }
+
+    /* Ikon & Animasi Putaran Kipas */
+    .fan-icon { width: 48px; height: 48px; color: #475569; transition: color 0.3s ease; }
+    .fan-cw { color: #ef4444; animation: spinRight 0.9s linear infinite; }
+    .fan-ccw { color: #22c55e; animation: spinLeft 0.9s linear infinite; }
 
     @keyframes spinRight {
       from { transform: rotate(0deg); }
@@ -40,16 +50,12 @@
       to { transform: rotate(0deg); }
     }
 
-    /* Daftar Relay */
-    .relay-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-    .relay-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 12px 16px; border-radius: 8px; }
-    .pill { padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
-    .on-heat { background: #dc2626; color: #ffffff; }
-    .on-cool { background: #16a34a; color: #ffffff; }
-    .off { background: #334155; color: #94a3b8; }
+    .unit-footer { text-align: center; font-size: 0.85rem; font-weight: 600; padding: 8px; border-radius: 6px; background: #0f172a; color: #94a3b8; }
+    .footer-heat { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .footer-cool { background: rgba(34, 197, 94, 0.15); color: #86efac; }
 
     /* Slider Simulasi */
-    .sim-box { background: #1e293b; border: 1px dashed #38bdf8; border-radius: 12px; padding: 16px; margin-top: 20px; }
+    .sim-box { background: #1e293b; border: 1px dashed #38bdf8; border-radius: 12px; padding: 16px; margin-top: 8px; }
     .sim-box label { display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; }
     input[type="range"] { width: 100%; cursor: pointer; }
   </style>
@@ -59,11 +65,12 @@
     <header>
       <div>
         <h1>FermenFish Monitor</h1>
-        <small style="color:#94a3b8;">ESP32 • DS18B20 • Sensor pH • Kontrol 3 Relay</small>
+        <small style="color:#94a3b8;">ESP32 • DS18B20 • Sensor pH • Sistem Otomasi Oven</small>
       </div>
       <span class="badge">SISTEM SIAP</span>
     </header>
 
+    <!-- Data Sensor Utama -->
     <div class="grid">
       <div class="card">
         <h2>Suhu Ruang Oven (DS18B20)</h2>
@@ -78,60 +85,58 @@
       </div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
-      <h2>Visualisasi Mode Kerja & Arah Kipas</h2>
-      <div class="visual-panel" style="margin-bottom: 0;">
-        <!-- Lampu Indikator Merah & Hijau -->
-        <div class="visual-box">
-          <div class="lamp-group">
-            <div class="lamp-wrap">
-              <div class="lamp" id="lampRed"></div>
-              <span>HEATING</span>
-            </div>
-            <div class="lamp-wrap">
-              <div class="lamp" id="lampGreen"></div>
-              <span>COOLING</span>
-            </div>
-          </div>
+    <!-- Dua Unit Kipas & Lampu Indikator -->
+    <div class="grid">
+      <!-- Unit 1: Heater + Kipas Heater -->
+      <div class="unit-card" id="cardHeat">
+        <div class="unit-header">
           <div>
-            <div style="font-size: 0.8rem; color: #94a3b8;">Status Lampu</div>
-            <div id="lampText" style="font-weight: 700; font-size: 1rem; margin-top: 2px;">Standby (Lampu Mati)</div>
+            <div class="unit-title">Heater & Kipas Sirkulasi</div>
+            <div class="unit-sub">Aktif otomatis saat suhu &lt; 20°C</div>
           </div>
         </div>
+        <div class="unit-body">
+          <div class="indicator-item">
+            <div class="lamp" id="lampRed"></div>
+            <span class="indicator-label">Lampu Merah</span>
+          </div>
+          <div class="indicator-item">
+            <svg id="fanHeat" class="fan-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm0-9c2.5 0 4.2 1.8 3.6 4.2-.4 1.6-1.5 2.7-2.4 3.5.9.3 1.7.9 2.2 1.7 1.3-.6 2.9-.8 4.3.1 2.1 1.3 2.4 3.8.8 5.6-1.2 1.4-2.8 1.6-4.2 1.1-.7.7-1.6 1.2-2.6 1.3.2 1.4-.2 3-1.5 4-1.9 1.5-4.5.9-5.6-1.2-.8-1.5-.5-3.1.4-4.3-.6-.8-1-1.8-1-2.8-1.4-.2-2.8-1-3.3-2.5-.8-2.3.5-4.7 2.8-5.2 1.6-.4 3.1.2 4 1.3.9-.5 1.9-.8 2.9-.8-.2-1.4.2-3 1.6-4 .6-.5 1.3-.7 2-.7z"/>
+            </svg>
+            <span class="indicator-label" id="dirHeat">Kipas Diam</span>
+          </div>
+        </div>
+        <div class="unit-footer" id="statusHeat">OFF — Standby</div>
+      </div>
 
-        <!-- Animasi Kipas Muter Kanan / Kiri -->
-        <div class="visual-box">
-          <svg id="fanSvg" class="fan-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm0-9c2.5 0 4.2 1.8 3.6 4.2-.4 1.6-1.5 2.7-2.4 3.5.9.3 1.7.9 2.2 1.7 1.3-.6 2.9-.8 4.3.1 2.1 1.3 2.4 3.8.8 5.6-1.2 1.4-2.8 1.6-4.2 1.1-.7.7-1.6 1.2-2.6 1.3.2 1.4-.2 3-1.5 4-1.9 1.5-4.5.9-5.6-1.2-.8-1.5-.5-3.1.4-4.3-.6-.8-1-1.8-1-2.8-1.4-.2-2.8-1-3.3-2.5-.8-2.3.5-4.7 2.8-5.2 1.6-.4 3.1.2 4 1.3.9-.5 1.9-.8 2.9-.8-.2-1.4.2-3 1.6-4 .6-.5 1.3-.7 2-.7z"/>
-          </svg>
+      <!-- Unit 2: Kipas Exhaust -->
+      <div class="unit-card" id="cardCool">
+        <div class="unit-header">
           <div>
-            <div style="font-size: 0.8rem; color: #94a3b8;">Putaran Kipas</div>
-            <div id="fanText" style="font-weight: 700; font-size: 1rem; margin-top: 2px;">Berhenti (Standby)</div>
+            <div class="unit-title">Kipas Exhaust (Pendingin)</div>
+            <div class="unit-sub">Aktif otomatis saat suhu &gt; 30°C</div>
           </div>
         </div>
+        <div class="unit-body">
+          <div class="indicator-item">
+            <div class="lamp" id="lampGreen"></div>
+            <span class="indicator-label">Lampu Hijau</span>
+          </div>
+          <div class="indicator-item">
+            <svg id="fanCool" class="fan-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm0-9c2.5 0 4.2 1.8 3.6 4.2-.4 1.6-1.5 2.7-2.4 3.5.9.3 1.7.9 2.2 1.7 1.3-.6 2.9-.8 4.3.1 2.1 1.3 2.4 3.8.8 5.6-1.2 1.4-2.8 1.6-4.2 1.1-.7.7-1.6 1.2-2.6 1.3.2 1.4-.2 3-1.5 4-1.9 1.5-4.5.9-5.6-1.2-.8-1.5-.5-3.1.4-4.3-.6-.8-1-1.8-1-2.8-1.4-.2-2.8-1-3.3-2.5-.8-2.3.5-4.7 2.8-5.2 1.6-.4 3.1.2 4 1.3.9-.5 1.9-.8 2.9-.8-.2-1.4.2-3 1.6-4 .6-.5 1.3-.7 2-.7z"/>
+            </svg>
+            <span class="indicator-label" id="dirCool">Kipas Diam</span>
+          </div>
+        </div>
+        <div class="unit-footer" id="statusCool">OFF — Standby</div>
       </div>
     </div>
 
-    <div class="card">
-      <h2>Status Aktuator (3 Channel Relay)</h2>
-      <div class="relay-list">
-        <div class="relay-item">
-          <span>Relay 1 — Heater Pemanas Oven</span>
-          <span class="pill off" id="r1">OFF</span>
-        </div>
-        <div class="relay-item">
-          <span>Relay 2 — Kipas Sirkulasi Heater</span>
-          <span class="pill off" id="r2">OFF</span>
-        </div>
-        <div class="relay-item">
-          <span>Relay 3 — Kipas Exhaust Pembuang Panas</span>
-          <span class="pill off" id="r3">OFF</span>
-        </div>
-      </div>
-    </div>
-
+    <!-- Slider Simulasi -->
     <div class="sim-box">
-      <label for="tempSlider">Simulasi Uji Tampilan Suhu Oven: <strong id="sliderLabel">25.0 °C</strong></label>
+      <label for="tempSlider">Simulasi Uji Suhu Oven: <strong id="sliderLabel">25.0 °C</strong></label>
       <input type="range" id="tempSlider" min="15" max="38" step="0.5" value="25" />
     </div>
   </div>
@@ -141,21 +146,20 @@
     const tempVal = document.getElementById('tempVal');
     const sliderLabel = document.getElementById('sliderLabel');
     const tempStatus = document.getElementById('tempStatus');
-    
+
+    // Elemen Unit 1 (Heating)
+    const cardHeat = document.getElementById('cardHeat');
     const lampRed = document.getElementById('lampRed');
+    const fanHeat = document.getElementById('fanHeat');
+    const dirHeat = document.getElementById('dirHeat');
+    const statusHeat = document.getElementById('statusHeat');
+
+    // Elemen Unit 2 (Cooling / Exhaust)
+    const cardCool = document.getElementById('cardCool');
     const lampGreen = document.getElementById('lampGreen');
-    const lampText = document.getElementById('lampText');
-    const fanSvg = document.getElementById('fanSvg');
-    const fanText = document.getElementById('fanText');
-
-    const r1 = document.getElementById('r1');
-    const r2 = document.getElementById('r2');
-    const r3 = document.getElementById('r3');
-
-    function setRelay(el, stateClass, label) {
-      el.textContent = label;
-      el.className = 'pill ' + stateClass;
-    }
+    const fanCool = document.getElementById('fanCool');
+    const dirCool = document.getElementById('dirCool');
+    const statusCool = document.getElementById('statusCool');
 
     slider.addEventListener('input', () => {
       const t = parseFloat(slider.value);
@@ -163,58 +167,61 @@
       sliderLabel.textContent = t.toFixed(1) + ' °C';
 
       if (t < 20) {
-        // MODE HEATING: Lampu Merah + Kipas Muter Kanan (CW)
-        tempStatus.textContent = 'Suhu Rendah (< 20°C) — Pemanasan Aktif';
+        // MODE HEATING: Unit 1 ON (Lampu Merah + Muter Kanan), Unit 2 OFF
+        tempStatus.textContent = 'Suhu Rendah (< 20°C) — Heating Aktif';
         tempStatus.style.color = '#f87171';
 
+        cardHeat.className = 'unit-card active-heat';
         lampRed.className = 'lamp red-on';
+        fanHeat.className = 'fan-icon fan-cw';
+        dirHeat.textContent = 'Muter Kanan';
+        statusHeat.className = 'unit-footer footer-heat';
+        statusHeat.textContent = 'ON — Heating & Sirkulasi Aktif';
+
+        cardCool.className = 'unit-card';
         lampGreen.className = 'lamp';
-        lampText.textContent = 'HEATING (Lampu Merah)';
-        lampText.style.color = '#f87171';
-
-        fanSvg.className = 'fan-icon fan-cw';
-        fanText.textContent = 'Muter Kanan (Searah Jarum Jam)';
-        fanText.style.color = '#f87171';
-
-        setRelay(r1, 'on-heat', 'ON');
-        setRelay(r2, 'on-heat', 'ON');
-        setRelay(r3, 'off', 'OFF');
+        fanCool.className = 'fan-icon';
+        dirCool.textContent = 'Kipas Diam';
+        statusCool.className = 'unit-footer';
+        statusCool.textContent = 'OFF — Standby';
 
       } else if (t > 30) {
-        // MODE COOLING: Lampu Hijau + Kipas Muter Kiri (CCW)
-        tempStatus.textContent = 'Suhu Tinggi (> 30°C) — Pendinginan Aktif';
+        // MODE COOLING: Unit 1 OFF, Unit 2 ON (Lampu Hijau + Muter Kiri)
+        tempStatus.textContent = 'Suhu Tinggi (> 30°C) — Cooling Aktif';
         tempStatus.style.color = '#4ade80';
 
+        cardHeat.className = 'unit-card';
         lampRed.className = 'lamp';
+        fanHeat.className = 'fan-icon';
+        dirHeat.textContent = 'Kipas Diam';
+        statusHeat.className = 'unit-footer';
+        statusHeat.textContent = 'OFF — Standby';
+
+        cardCool.className = 'unit-card active-cool';
         lampGreen.className = 'lamp green-on';
-        lampText.textContent = 'COOLING (Lampu Hijau)';
-        lampText.style.color = '#4ade80';
-
-        fanSvg.className = 'fan-icon fan-ccw';
-        fanText.textContent = 'Muter Kiri (Berlawanan Jarum Jam)';
-        fanText.style.color = '#4ade80';
-
-        setRelay(r1, 'off', 'OFF');
-        setRelay(r2, 'off', 'OFF');
-        setRelay(r3, 'on-cool', 'ON');
+        fanCool.className = 'fan-icon fan-ccw';
+        dirCool.textContent = 'Muter Kiri';
+        statusCool.className = 'unit-footer footer-cool';
+        statusCool.textContent = 'ON — Exhaust Pendingin Aktif';
 
       } else {
-        // MODE STANDBY
+        // MODE STANDBY (20°C - 30°C)
         tempStatus.textContent = 'Suhu Ideal (20°C - 30°C) — Standby';
         tempStatus.style.color = '#34d399';
 
+        cardHeat.className = 'unit-card';
         lampRed.className = 'lamp';
+        fanHeat.className = 'fan-icon';
+        dirHeat.textContent = 'Kipas Diam';
+        statusHeat.className = 'unit-footer';
+        statusHeat.textContent = 'OFF — Standby';
+
+        cardCool.className = 'unit-card';
         lampGreen.className = 'lamp';
-        lampText.textContent = 'Standby (Lampu Mati)';
-        lampText.style.color = '#f8fafc';
-
-        fanSvg.className = 'fan-icon';
-        fanText.textContent = 'Berhenti (Standby)';
-        fanText.style.color = '#f8fafc';
-
-        setRelay(r1, 'off', 'OFF');
-        setRelay(r2, 'off', 'OFF');
-        setRelay(r3, 'off', 'OFF');
+        fanCool.className = 'fan-icon';
+        dirCool.textContent = 'Kipas Diam';
+        statusCool.className = 'unit-footer';
+        statusCool.textContent = 'OFF — Standby';
       }
     });
   </script>
