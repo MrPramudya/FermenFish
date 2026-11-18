@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FermenFish - Monitoring Fermentasi & Oven</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; }
+    body { background: #0f172a; color: #f8fafc; padding: 24px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #1e293b; padding-bottom: 16px; }
+    header h1 { font-size: 1.4rem; color: #38bdf8; }
+    .badge { padding: 6px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; background: #064e3b; color: #34d399; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+    .card h2 { font-size: 0.9rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .value { font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; }
+    .status-text { font-size: 0.9rem; font-weight: 500; }
+    .relay-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+    .relay-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 12px 16px; border-radius: 8px; }
+    .pill { padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+    .on { background: #16a34a; color: #ffffff; }
+    .off { background: #334155; color: #94a3b8; }
+    .sim-box { background: #1e293b; border: 1px dashed #38bdf8; border-radius: 12px; padding: 16px; margin-top: 24px; }
+    .sim-box label { display: block; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; }
+    input[type="range"] { width: 100%; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>FermenFish Monitor</h1>
+        <small style="color:#94a3b8;">ESP32 • DS18B20 • Sensor pH • Kontrol 3 Relay</small>
+      </div>
+      <span class="badge">SISTEM SIAP</span>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Suhu Ruang Oven (DS18B20)</h2>
+        <div class="value" id="tempVal">25.0 °C</div>
+        <div class="status-text" id="tempStatus" style="color:#34d399;">Suhu Ideal (20°C - 30°C)</div>
+      </div>
+
+      <div class="card">
+        <h2>Kadar pH Air Fermentasi</h2>
+        <div class="value" id="phVal">4.80 pH</div>
+        <div class="status-text" id="phStatus" style="color:#38bdf8;">Kondisi Asam Fermentasi</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Status Aktuator (3 Channel Relay)</h2>
+      <div class="relay-list">
+        <div class="relay-item">
+          <span>Relay 1 — Heater Pemanas Oven</span>
+          <span class="pill off" id="r1">OFF</span>
+        </div>
+        <div class="relay-item">
+          <span>Relay 2 — Kipas Sirkulasi Heater</span>
+          <span class="pill off" id="r2">OFF</span>
+        </div>
+        <div class="relay-item">
+          <span>Relay 3 — Kipas Exhaust Pembuang Panas</span>
+          <span class="pill off" id="r3">OFF</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sim-box">
+      <label for="tempSlider">Simulasi Uji Tampilan Suhu Oven: <strong id="sliderLabel">25.0 °C</strong></label>
+      <input type="range" id="tempSlider" min="15" max="38" step="0.5" value="25" />
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('tempSlider');
+    const tempVal = document.getElementById('tempVal');
+    const sliderLabel = document.getElementById('sliderLabel');
+    const tempStatus = document.getElementById('tempStatus');
+    const r1 = document.getElementById('r1');
+    const r2 = document.getElementById('r2');
+    const r3 = document.getElementById('r3');
+
+    function setRelay(el, isOn) {
+      el.textContent = isOn ? 'ON' : 'OFF';
+      el.className = 'pill ' + (isOn ? 'on' : 'off');
+    }
+
+    slider.addEventListener('input', () => {
+      const t = parseFloat(slider.value);
+      tempVal.textContent = t.toFixed(1) + ' °C';
+      sliderLabel.textContent = t.toFixed(1) + ' °C';
+
+      if (t < 20) {
+        tempStatus.textContent = 'Suhu Rendah (< 20°C) — Pemanasan Aktif';
+        tempStatus.style.color = '#38bdf8';
+        setRelay(r1, true);
+        setRelay(r2, true);
+        setRelay(r3, false);
+      } else if (t > 30) {
+        tempStatus.textContent = 'Suhu Tinggi (> 30°C) — Exhaust Aktif';
+        tempStatus.style.color = '#f87171';
+        setRelay(r1, false);
+        setRelay(r2, false);
+        setRelay(r3, true);
+      } else {
+        tempStatus.textContent = 'Suhu Ideal (20°C - 30°C) — Standby';
+        tempStatus.style.color = '#34d399';
+        setRelay(r1, false);
+        setRelay(r2, false);
+        setRelay(r3, false);
+      }
+    });
+  </script>
+</body>
+</html>
